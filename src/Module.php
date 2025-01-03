@@ -31,9 +31,7 @@ final class Module implements ModuleInterface
     public function getConfig(): array
     {
         return [
-            'database' => [
-                'driver' => 'pdo_sqlite',
-            ],
+            'database' => [],
             'schemas' => []
         ];
     }
