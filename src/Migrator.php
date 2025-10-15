@@ -36,16 +36,16 @@ final class Migrator
 
     public function drop(): void
     {
-        $schema = $this->createSchema();
+        $schema = $this->getSchemaManager()->introspectSchema();
 
         $this->getSchemaManager()->dropSchemaObjects($schema);
     }
 
     public function dropToString(): string
     {
-        $schema = $this->createSchema();
-
-        $queries = $schema->toDropSql($this->connection->getDatabasePlatform());
+        $queries = $this->getSchemaManager()
+            ->introspectSchema()
+            ->toDropSql($this->connection->getDatabasePlatform());
 
         return implode(";\n", $queries);
     }
