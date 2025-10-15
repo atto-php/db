@@ -34,15 +34,27 @@ final class Migrator
         return implode(";\n", $sql);
     }
 
+    public function drop(): void
+    {
+        $schema = $this->createSchema();
+
+        $this->getSchemaManager()->dropSchemaObjects($schema);
+    }
+
+    public function dropToString(): string
+    {
+        $schema = $this->createSchema();
+
+        $queries = $schema->toDropSql($this->connection->getDatabasePlatform());
+
+        return implode(";\n", $queries);
+    }
+
     private function getSchemaDiff(): SchemaDiff
     {
         $manager = $this->getSchemaManager();
 
-        $schema = new Schema();
-
-        foreach ($this->migrations as $migration) {
-            (new $migration)($schema);
-        }
+        $schema = $this->createSchema();
 
         $schemaDiff = $manager->createComparator()
             ->compareSchemas($manager->introspectSchema(), $schema);
@@ -57,4 +69,16 @@ final class Migrator
 
         return $this->schemaManager;
     }
+
+    private function createSchema(): Schema
+    {
+        $schema = new Schema();
+
+        foreach ($this->migrations as $migration) {
+            (new $migration())($schema);
+        }
+
+        return $schema;
+    }
+
 }
