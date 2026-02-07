@@ -21,6 +21,10 @@ class MigrationClassMigrator implements Migrator
 
         $directory = new DirectoryIterator($this->migrationsDirectory);
         foreach ($directory as $file) {
+            if ($file->isDot()) {
+                continue;
+            }
+
             $migration = include $file->getPathname();
             $name = $migration->getName();
 
@@ -39,7 +43,7 @@ class MigrationClassMigrator implements Migrator
 
     private function loadExistingMigrations(): void
     {
-        $exists = $this->connection->executeQuery('SHOW TABLES LIKE `\_\_Migrations`')->rowCount() > 0;
+        $exists = $this->connection->executeQuery('SHOW TABLES LIKE "\_\_Migrations"')->rowCount() > 0;
 
         if (!$exists) {
             return;

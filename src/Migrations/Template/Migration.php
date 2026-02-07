@@ -5,6 +5,7 @@ namespace Atto\Db\Migrations\Template;
 class Migration
 {
     private const CODE = <<<'EOF'
+        <?php
         use Doctrine\DBAL\Connection;
         
         return new class() 
@@ -14,8 +15,8 @@ class Migration
             {
                 %2$s
             }
-        }
-    EOF;
+        };
+        EOF;
 
     public function __construct(
         private string $name,
