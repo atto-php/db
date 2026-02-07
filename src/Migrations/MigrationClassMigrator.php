@@ -52,7 +52,8 @@ class MigrationClassMigrator implements Migrator
         $migrations = $this->connection->createQueryBuilder()
             ->select('*')
             ->from('__Migrations')
-            ->executeQuery();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         foreach ($migrations as $migration) {
             $this->migrations[$migration['name']] = $migration['name'];
