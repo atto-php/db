@@ -27,22 +27,6 @@ final class MigrationGenerator
         return $this->connection->getDatabasePlatform()->getAlterSchemaSQL($schemaDiff);
     }
 
-    public function drop(): void
-    {
-        $schema = $this->getSchemaManager()->introspectSchema();
-
-        $this->getSchemaManager()->dropSchemaObjects($schema);
-    }
-
-    public function dropToString(): string
-    {
-        $queries = $this->getSchemaManager()
-            ->introspectSchema()
-            ->toDropSql($this->connection->getDatabasePlatform());
-
-        return implode(";\n", $queries);
-    }
-
     private function getSchemaDiff(): SchemaDiff
     {
         $manager = $this->getSchemaManager();
@@ -73,5 +57,4 @@ final class MigrationGenerator
 
         return $schema;
     }
-
 }

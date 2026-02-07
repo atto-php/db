@@ -8,6 +8,7 @@ use Atto\Db\Migrations\DynamicMigrator;
 use Atto\Db\Migrations\MigrationClassMigrator;
 use Atto\Db\Migrations\MigrationClassWriter;
 use Atto\Db\Migrations\MigrationTableSchema;
+use Atto\Db\Migrations\SchemaDropper;
 use Atto\Framework\Module\ModuleInterface;
 use Doctrine\DBAL\Connection;
 
@@ -46,6 +47,11 @@ final class Module implements ModuleInterface
                 'args' => [
                     MigrationGenerator::class,
                     'config.migrations_directory'
+                ]
+            ],
+            SchemaDropper::class => [
+                'args' => [
+                    Connection::class,
                 ]
             ]
         ];
