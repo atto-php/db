@@ -9,7 +9,7 @@ use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaDiff;
 
-final class Migrator
+final class MigrationGenerator
 {
     private AbstractSchemaManager $schemaManager;
 
@@ -19,35 +19,12 @@ final class Migrator
     ) {
     }
 
-    public function migrate(): void
+    /** @return string[] */
+    public function generateStatements(): array
     {
         $schemaDiff = $this->getSchemaDiff();
 
-        $this->getSchemaManager()->alterSchema($schemaDiff);
-    }
-
-    public function migrateToString(): string
-    {
-        $schemaDiff = $this->getSchemaDiff();
-
-        $sql = $this->connection->getDatabasePlatform()->getAlterSchemaSQL($schemaDiff);
-        return implode(";\n", $sql);
-    }
-
-    public function drop(): void
-    {
-        $schema = $this->getSchemaManager()->introspectSchema();
-
-        $this->getSchemaManager()->dropSchemaObjects($schema);
-    }
-
-    public function dropToString(): string
-    {
-        $queries = $this->getSchemaManager()
-            ->introspectSchema()
-            ->toDropSql($this->connection->getDatabasePlatform());
-
-        return implode(";\n", $queries);
+        return $this->connection->getDatabasePlatform()->getAlterSchemaSQL($schemaDiff);
     }
 
     private function getSchemaDiff(): SchemaDiff
@@ -80,5 +57,4 @@ final class Migrator
 
         return $schema;
     }
-
 }
