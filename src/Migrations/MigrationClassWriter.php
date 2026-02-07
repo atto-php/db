@@ -5,7 +5,6 @@ namespace Atto\Db\Migrations;
 use Atto\CodegenTools\ClassDefinition\PHPClassDefinitionProducer;
 use Atto\CodegenTools\ClassDefinition\SimplePHPClassDefinition;
 use Atto\CodegenTools\CodeGeneration\PHPFilesWriter;
-use Atto\Db\MigrationGenerator;
 use Atto\Db\Migrations\Template\Migration;
 
 class MigrationClassWriter
@@ -18,7 +17,7 @@ class MigrationClassWriter
 
     public function migrateToClass(): void
     {
-        $name = '2026';
+        $name = (new \DateTime())->format('Y_m_d_His');
         $phpCode = new SimplePHPClassDefinition(
             'Migrations',
             'Migration' . $name,

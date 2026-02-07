@@ -10,6 +10,7 @@ use Atto\Db\Migrations\MigrationClassWriter;
 use Atto\Db\Migrations\MigrationTableSchema;
 use Atto\Db\Migrations\SchemaDropper;
 use Atto\Framework\Module\ModuleInterface;
+use Atto\Db\Migrations\MigrationGenerator;
 use Doctrine\DBAL\Connection;
 
 final class Module implements ModuleInterface
