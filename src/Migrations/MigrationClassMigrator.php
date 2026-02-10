@@ -20,6 +20,8 @@ class MigrationClassMigrator implements Migrator
         $this->loadExistingMigrations();
 
         $directory = new DirectoryIterator($this->migrationsDirectory);
+        $migrations = [];
+
         foreach ($directory as $file) {
             if ($file->isDot()) {
                 continue;
@@ -27,6 +29,14 @@ class MigrationClassMigrator implements Migrator
 
             $migration = include $file->getPathname();
             $name = $migration->getName();
+
+            $migrations[$name] = $migration;
+        }
+
+        ksort($migrations);
+
+        foreach ($migrations as $name => $migration) {
+            printf("Migrating %s\n", $name);
 
             if (!$this->hasMigrated($name)) {
                 $migration($this->connection);

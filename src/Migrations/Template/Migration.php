@@ -27,7 +27,7 @@ class Migration
     public function __toString(): string
     {
         foreach ($this->statements as $statement) {
-            $statements[] = sprintf("\$connection->executeStatement('%s');\n", $statement);
+            $statements[] = sprintf("\$connection->executeStatement('%s');\n", addslashes($statement));
         }
         return sprintf(self::CODE, $this->name, implode('', $statements));
     }
