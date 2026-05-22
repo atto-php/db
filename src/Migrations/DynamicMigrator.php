@@ -2,7 +2,7 @@
 
 namespace Atto\Db\Migrations;
 
-use Atto\Db\MigrationGenerator;
+use Atto\Db\Migrations\MigrationGenerator;
 use Doctrine\DBAL\Connection;
 
 class DynamicMigrator implements Migrator
