@@ -7,8 +7,8 @@ class Migration
     private const CODE = <<<'EOF'
         <?php
         use Doctrine\DBAL\Connection;
-        
-        return new class() 
+
+        return new class()
         {
             public function getName(): string { return '%1$s'; }
             public function __invoke(Connection $connection): void
@@ -26,6 +26,7 @@ class Migration
 
     public function __toString(): string
     {
+        $statements = [];
         foreach ($this->statements as $statement) {
             $statements[] = sprintf("\$connection->executeStatement('%s');\n", addslashes($statement));
         }
